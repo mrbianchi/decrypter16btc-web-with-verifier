@@ -1,0 +1,27 @@
+[package]
+name = "decrypter16btc"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+hex = "0.4"
+sha2 = { version = "0.10", default-features = false }
+aes = "0.8"
+cbc = { version = "0.1", features = ["alloc"] }
+getrandom = { version = "0.2", features = ["js"] }
+wee_alloc = { version = "0.4", optional = true }
+console_error_panic_hook = { version = "0.1.6", optional = true }
+wasm-bindgen = "0.2.100"
+latest = "0.1.1"
+
+[dev-dependencies]
+wasm-bindgen-test = "0.3.13"
+
+[features]
+default = ["console_error_panic_hook"]
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[profile.release]
+opt-level = "s"
