@@ -1,14 +1,24 @@
 // Importa la librería que contiene la función `bcore_decrypt`
 use decrypter16btc::bcore_decrypt;
 
-#[cfg(test)] // Este atributo indica que solo se compilará cuando se realicen pruebas
+#[cfg(test)]
 mod tests {
-    // Traemos la función `bcore_decrypt` desde el módulo principal
     use super::*;
 
-    #[test] // Marca la función como una prueba
-    fn test_bcore_decrypt() {
-        let result = bcore_decrypt(String::from("test"));
-        assert_eq!(result.clone(), Ok(()), "Error al testear: {:?}", result.err());
+    #[test]
+    fn test_bcore_decrypt_test_data() {
+        // Prueba con el dataset data_test y la contraseña "test"
+        let result = bcore_decrypt("test", true);
+        assert!(result.is_ok(), "Error al testear con data_test: {:?}", result.err());
+        let decrypt_result = result.unwrap();
+        assert!(decrypt_result.success);
+        assert!(decrypt_result.ckey_decrypted.is_some());
+    }
+
+    #[test]
+    fn test_bcore_decrypt_wrong_password() {
+        // Contraseña incorrecta debe fallar
+        let result = bcore_decrypt("wrongpassword", true);
+        assert!(result.is_err(), "Debería haber fallado con contraseña incorrecta");
     }
 }
